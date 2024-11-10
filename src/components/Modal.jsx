@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Form, Input, Select, message } from 'antd';
 import { missionState, missionPriority } from '@/config/enum';
 import axios from "axios";
@@ -6,6 +6,11 @@ const { Option } = Select;
 const TaskModal = (props) => {
   const { visible, handleVisible, fetchData } = props;
   const [form] = Form.useForm();
+  useEffect(() => {
+    if(visible) {
+      form.resetFields();
+    }
+  }, [form, visible]);
 
   const handleOk = () => {
     form.submit();

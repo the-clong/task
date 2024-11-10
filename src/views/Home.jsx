@@ -26,7 +26,7 @@ const Home = () => {
       data: res?.data?.data || [],
   };
   }
-  const { tableProps, resetTable } = useAntdTable(fetchData, [
+  const { tableProps, resetTable, reloadTable } = useAntdTable(fetchData, [
     queryParams,
   ]);
   const handleVisible = (flag) => {
@@ -41,7 +41,7 @@ const Home = () => {
         const res = await axios.post('/api/tasks/delete', {key});
         if(res.data.code === 0) {
           message.success('删除成功');
-          fetchData();
+          reloadTable();
         }
       },
       onCancel() {
@@ -116,7 +116,7 @@ const Home = () => {
       <Button type="primary" onClick={() => handleVisible(true)}>创建任务</Button>
     </div>
     <Table columns={columns} scroll={{y: 'calc(100vh - 210px)'}} {...tableProps}/>
-    <TaskModal visible={visible} handleVisible={handleVisible} fetchData={fetchData}/>
+    <TaskModal visible={visible} handleVisible={handleVisible} fetchData={reloadTable}/>
   </div>;
 };
 export default Home;
